@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Test GeoNetwork UI v2.6.1</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&amp;family=Inter:wght@200;300;400;500;600;700&amp;display=swap"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <style>
+      :root {
+        --font-family-main: 'Inter', sans-serif;
+        --color-primary: #251;
+        --color-secondary: #c40;
+        --color-main: #555;
+        --color-background: #fdfbff;
+        --color-gray-200: #e5e7eb;
+        --tw-ring-color: rgba(59, 130, 246, 0.5);
+        --tw-ring-offset-shadow: 0 0 #0000;
+        --tw-ring-shadow: 0 0 #0000;
+        --tw-shadow: 0 0 #0000;
+        --tw-shadow-colored: 0 0 #0000;
+      }
+      
+      body {
+        margin: 0;
+        overflow-y: scroll;
+        font-family: var(--font-family-main);
+        color: var(--color-main);
+        background-color: var(--color-background);
+      }
+      header {
+        height: 200px;
+        background-color: var(--color-secondary);
+      }
+      .container {
+        max-width: 750px;
+        margin-left: auto;
+        margin-right: auto;
+        padding-top: 3rem;
+        padding-bottom: 3rem;
+      }
+    </style>
+  </head>
+  <body>
+    <script src="https://cdn.jsdelivr.net/gh/geonetwork/geonetwork-ui@wc-dist-v2.6.1/gn-wc.js"></script>
+    <header>
+      <div class="container">
+        <gn-search-input
+          api-url="https://geocat-int.dev.bgdi.ch/geonetwork/srv/api"
+          open-on-search="https://geocat-int.dev.bgdi.ch/datahub/search?organization=Canton%20du%20Valais&q=${search}"
+          open-on-select="https://geocat-int.dev.bgdi.ch/datahub/dataset/${uuid}"
+        ></gn-search-input>
+      </div>
+    </header>
+  </body>
+</html>
