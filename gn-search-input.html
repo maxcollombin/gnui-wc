@@ -51,9 +51,9 @@
     <header>
       <div class="container">
         <gn-search-input
-          api-url="https://geocat-int.dev.bgdi.ch/geonetwork/srv/api"
-          open-on-search="https://geocat-int.dev.bgdi.ch/datahub/search?organization=Canton%20du%20Valais&q=${search}"
-          open-on-select="https://geocat-int.dev.bgdi.ch/datahub/dataset/${uuid}"
+          api-url="https://www.geocat.ch/geonetwork/srv/api"
+          open-on-search="https://www.geocat.ch/geonetwork/srv/fre/catalog.search#/search?query_string=%7B%22groupOwner%22:%7B%2220%22:true%7D,%22cl_status.key%22:%7B%22historicalArchive%22:false,%22obsolete%22:false%7D%7D"
+          open-on-select="https://www.geocat.ch/geonetwork/srv/api/records/${uuid}/formatters/vs_full_fr?language=fre"
         ></gn-search-input>
       </div>
     </header>

@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <title>Recherches de géodonnées</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&amp;family=Inter:wght@200;300;400;500;600;700&amp;display=swap"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <style>
+      :root {
+        --font-family-main: 'Inter', sans-serif;
+        --color-primary: #251;
+        --color-secondary: #c40;
+        --color-main: #555;
+        --color-background: #fdfbff;
+        --color-gray-200: #e5e7eb;
+        --tw-ring-color: rgba(59, 130, 246, 0.5);
+        --tw-ring-offset-shadow: 0 0 #0000;
+        --tw-ring-shadow: 0 0 #0000;
+        --tw-shadow: 0 0 #0000;
+        --tw-shadow-colored: 0 0 #0000;
+      }
+      
+      body {
+        margin: 0;
+        overflow-y: scroll;
+        font-family: var(--font-family-main);
+        color: var(--color-main);
+        background-color: var(--color-background);
+      }
+      header {
+        height: 200px;
+        background-color: var(--color-secondary);
+      }
+      .container {
+        max-width: 750px;
+        margin-left: auto;
+        margin-right: auto;
+        padding-top: 3rem;
+        padding-bottom: 3rem;
+      }
+    </style>
+  </head>
+  <body>
+    <script src="https://cdn.jsdelivr.net/gh/geonetwork/geonetwork-ui@wc-dist-v2.6.1/gn-wc.js"></script>
+    <header>
+      <div class="container">
+        <gn-search-input id="searchInput"
+          api-url="https://geocat-int.dev.bgdi.ch/geonetwork/srv/ger/catalog.search#/search?query_string=%7B%22groupOwner%22:%20%7B%2220%22:%20true%7D%7D"
+          open-on-search="https://geocat-int.dev.bgdi.ch/geonetwork/srv/ger/catalog.search#/search?query_string=%7B%22groupOwner%22:%7B%2220%22:true%7D,%22any%22:%22${search}%22%7D"
+          open-on-select="https://geocat-int.dev.bgdi.ch/datahub/dataset/${uuid}"
+          filter='{"groupOwner":{"20":true}}'
+        ></gn-search-input>
+      </div>
+    </header>
+    <main class="container">
+      <gn-results-list id="resultsList"
+        size="5"
+        api-url="https://geocat-int.dev.bgdi.ch/geonetwork/srv/api"
+        catalog-url="https://geocat-int.dev.bgdi.ch/datahub/dataset/{uuid}"
+        layout="ROW"
+        primary-color="#0f4395"
+        secondary-color="#8bc832"
+        main-color="#555"
+        background-color="#fdfbff"
+        main-font="'Inter', sans-serif"
+        title-font="'DM Serif Display', serif"
+        show-more="button"
+        filter='{"groupOwner":{"20":true},"cl_status.key":{"historicalArchive":false,"obsolete":false}}'
+      ></gn-results-list>
+    </main>
+    <script>
+      const searchInput = document.getElementById('searchInput');
+      const resultsList = document.getElementById('resultsList');
+      // Résultats masqués par défaut
+      resultsList.style.display = 'none';
+      // Filtre de base
+      const baseFilter = {
+        groupOwner: { "20": true },
+        cl_status: { key: { historicalArchive: false, obsolete: false } }
+      };
+      // Fonction utilitaire pour récupérer la valeur saisie
+      function getSearchValue() {
+        try {
+          if (searchInput.shadowRoot) {
+            const input = searchInput.shadowRoot.querySelector('input');
+            return input && typeof input.value === 'string' ? input.value : '';
+          }
+        } catch (err) {
+          console.warn('Erreur lors de la récupération de la valeur saisie:', err);
+        }
+        return '';
+      }
+      // Met à jour de l'affichage sur la base de la saisie
+      function updateResults() {
+        const searchValue = getSearchValue().trim();
+        if (!searchValue) {
+          resultsList.style.display = 'none';
+          resultsList.setAttribute('filter', JSON.stringify(baseFilter));
+          return;
+        }
+        resultsList.style.display = 'block';
+        const filter = { ...baseFilter, any: searchValue };
+        resultsList.setAttribute('filter', JSON.stringify(filter));
+      }
+      searchInput.addEventListener('input', updateResults);
+      searchInput.addEventListener('change', updateResults);
+    </script>
+  </body>
+</html>
